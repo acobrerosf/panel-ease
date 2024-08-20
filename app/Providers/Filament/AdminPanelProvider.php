@@ -25,7 +25,6 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
             ->id(PanelEnums::Admin->value)
             ->path('')
             ->login()
@@ -56,9 +55,10 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->authGuard('admin')
             ->authMiddleware([
                 Authenticate::class,
-            ])            
+            ])          
             ->darkMode(
                 condition: true, 
                 isForced: true
