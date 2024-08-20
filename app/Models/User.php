@@ -2,19 +2,22 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\PanelEnums;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * @inheritdoc
      */
     protected $fillable = [
         'name',
@@ -23,9 +26,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * @inheritdoc
      */
     protected $hidden = [
         'password',
@@ -33,15 +34,55 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * @inheritdoc
      */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'archived_at' => 'datetime'
         ];
+    }
+
+    /**
+     * Get the type.
+     */
+    public function type(): BelongsTo
+    {
+        return $this->belongsTo(UserType::class);
+    }
+
+    /**
+     * Get if the user is archived.
+     */
+    public function isArchived(): bool
+    {
+        return $this->archived_at !== null;
+    }
+
+    /**
+     * Get if the user is active.
+     */
+    public function isActive(): bool
+    {
+        return !$this->isArchived();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if (!$this->hasVerifiedEmail() || !$this->isActive()) {
+            return false;
+        }
+
+        switch ($panel->getId()) {
+            case PanelEnums::Admin->value:
+                return in_array($this->type_id, [UserType::FULL_ADMINISTRATOR, UserType::ADMINISTRATOR]);
+        }
+
+        return false;
     }
 }

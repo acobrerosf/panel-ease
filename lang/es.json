@@ -1,0 +1,21 @@
+{
+    "Administrator": "Administrador",
+    
+    "Yes": "Sí",
+    "No": "No",
+
+    "Archived at": "Archivado el",
+    "Active": "Activo",
+
+    "Hello!": "¡Hola!",
+    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "Si tiene problemas con el botón \":actionText\", copie y pegue la siguiente URL\nen su navegador:",
+    "If you did not request a password reset, no further action is required.": "Si no has solicitado una recuperación de contraseña, no es necesario que realices ninguna acción.",
+    "Login Successful": "Inicio de sesión exitoso",
+    "Login From": "Desde",
+    "Login Until": "Hasta",
+    "Regards": "Saludos",
+    "Reset Password": "Recuperar contraseña",
+    "Reset Password Notification": "Recuperar contraseña",
+    "This password reset link will expire in :count minutes.": "Este enlace de recuperación de contraseña expirará en :count minutos.",
+    "You are receiving this email because we received a password reset request for your account.": "Estás recibiendo este correo porque hemos recibido una solicitud de recuperación de contraseña para tu cuenta."
+}

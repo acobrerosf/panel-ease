@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('name')->unique();
         });
         DB::table('user_types')->insert([
-            ['id' => 1, 'name' => 'Administrator'],
+            ['id' => 1, 'name' => 'Super Admin'],
+            ['id' => 2, 'name' => 'Administrator'],
         ]);
 
         Schema::create('users', function (Blueprint $table) {
