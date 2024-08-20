@@ -62,6 +62,10 @@ class AdminPanelProvider extends PanelProvider
             ->darkMode(
                 condition: true, 
                 isForced: true
+            )
+            ->renderHook(
+                name: 'panels::body.end',
+                hook: fn () => view('panels.footer')
             );
     }
 }

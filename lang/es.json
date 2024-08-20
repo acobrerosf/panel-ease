@@ -18,5 +18,7 @@
     "Reset Password": "Recuperar contraseña",
     "Reset Password Notification": "Recuperar contraseña",
     "This password reset link will expire in :count minutes.": "Este enlace de recuperación de contraseña expirará en :count minutos.",
-    "You are receiving this email because we received a password reset request for your account.": "Estás recibiendo este correo porque hemos recibido una solicitud de recuperación de contraseña para tu cuenta."
+    "You are receiving this email because we received a password reset request for your account.": "Estás recibiendo este correo porque hemos recibido una solicitud de recuperación de contraseña para tu cuenta.",
+
+    "Developed by": "Desarrollado por"
 }
