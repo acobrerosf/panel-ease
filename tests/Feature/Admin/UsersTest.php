@@ -144,12 +144,12 @@ it('can send invite to user', function() {
     $user = User::factory()->create([
         'email_verified_at' => null,
     ]);
-
-    $this->assertNull(
+    
+    expect(
         DB::table('user_password_reset_tokens')
             ->where('email', $user->email)
             ->first()
-    );
+    )->toBe(null);
 
     Notification::assertNothingSent();
  
