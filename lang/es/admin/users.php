@@ -10,7 +10,8 @@ return [
     'model' => 'usuario',
 
     'table' => [
-        'tabs' => [            
+        'tabs' => [      
+            'all' => 'Todos',        
             'active' => 'Activos',
             'archived' => 'Archivados',
         ],
