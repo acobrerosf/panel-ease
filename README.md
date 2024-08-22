@@ -109,7 +109,7 @@ public function canAccessPanel(Panel $panel): bool
         case PanelEnums::Admin->value:
             return in_array($this->type_id, [UserType::FULL_ADMINISTRATOR, UserType::ADMINISTRATOR]);
         case PanelEnums::Clients->value:
-            return $this->type_id = UserType::CLIENT;
+            return $this->type_id == UserType::CLIENT;
     }
 
     return false;
