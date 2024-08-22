@@ -10,7 +10,8 @@ return [
     'model' => 'user',
 
     'table' => [
-        'tabs' => [            
+        'tabs' => [          
+            'all' => 'All',  
             'active' => 'Active',
             'archived' => 'Archived',
         ],

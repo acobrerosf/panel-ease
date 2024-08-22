@@ -24,11 +24,17 @@ class ManageUsers extends ManageRecords
 
     public function getTabs(): array
     {
+        $model = $this->getModel();
+
         return [
+            'all' => Tab::make(__('admin/users.table.tabs.all'))
+                ->badge($model::count()),
             'active' => Tab::make(__('admin/users.table.tabs.active'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('archived_at')),
+                ->modifyQueryUsing(fn (Builder $query) => $query->active())
+                ->badge($model::active()->count()),
             'archived' => Tab::make(__('admin/users.table.tabs.archived'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->whereNotNull('archived_at')),
+                ->modifyQueryUsing(fn (Builder $query) => $query->archived())
+                ->badge($model::archived()->count()),
         ];
     }
 }

@@ -12,9 +12,9 @@
 */
 
 uses(
-    Tests\TestCase::class,
-    // Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature');
+    Tests\AdminTestCase::class,
+    Illuminate\Foundation\Testing\RefreshDatabase::class,
+)->in('Feature/Admin');
 
 /*
 |--------------------------------------------------------------------------
