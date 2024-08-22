@@ -89,6 +89,16 @@ it('displays the active action for archived users only', function() {
 });
 
 it('can create a new user', function() { 
+    Notification::fake();
+
+    expect(
+        DB::table('user_password_reset_tokens')
+            ->where('email', 'admin@email.com')
+            ->first()
+    )->toBe(null);
+
+    Notification::assertNothingSent();
+    
     livewire(ManageUsers::class)
         ->callAction('create', data: [
             'name' => 'Admin',
@@ -96,7 +106,20 @@ it('can create a new user', function() {
             'email' => 'admin@email.com'
         ]);
 
-    expect(User::where('email', 'admin@email.com')->exists())->toBe(true);
+    $user = User::where('email', 'admin@email.com')->first();
+    expect($user)->not->toBe(null);
+        
+    expect(
+        DB::table('user_password_reset_tokens')
+            ->where('email', $user->email)
+            ->first()
+    )->not->toBe(null);
+
+    Notification::assertSentTo(
+        [$user], ResetPassword::class
+    );
+
+    Notification::assertCount(1);
 });
 
 it('can edit an existing user', function() {

@@ -2,6 +2,7 @@
 
 namespace App\Actions\Users;
 
+use App\Actions\Auth\SendResetPasswordAction;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,13 @@ use Illuminate\Support\Str;
 
 class UserCreateAction
 {
+    public function __construct(
+        private SendResetPasswordAction $sendResetPasswordAction
+    )
+    {
+        
+    }
+
     public function __invoke(array $data): User
     {
         DB::beginTransaction();
@@ -21,10 +29,7 @@ class UserCreateAction
             $user->save();
 
             // Send reset password notification.
-            $token = app('auth.password.broker')->createToken($user);
-            $notification = new \Filament\Notifications\Auth\ResetPassword($token);
-            $notification->url = \Filament\Facades\Filament::getResetPasswordUrl($token, $user);
-            $user->notify($notification);
+            $this->sendResetPasswordAction->__invoke($user);
 
             DB::commit();
         }
