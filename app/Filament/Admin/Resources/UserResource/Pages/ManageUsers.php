@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources\UserResource\Pages;
 
 use App\Actions\Users\UserCreateAction;
 use App\Filament\Admin\Resources\UserResource;
+use App\Models\UserType;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
@@ -25,16 +26,24 @@ class ManageUsers extends ManageRecords
     public function getTabs(): array
     {
         $model = $this->getModel();
+        
+        $userTypes = [
+            UserType::FULL_ADMINISTRATOR,
+            UserType::ADMINISTRATOR,
+        ];
+        if (auth()->user()->type_id == UserType::ADMINISTRATOR) {
+            $userTypes = [UserType::ADMINISTRATOR];
+        }
 
         return [
             'all' => Tab::make(__('admin/users.table.tabs.all'))
-                ->badge($model::count()),
+                ->badge($model::whereIn('type_id', $userTypes)->count()),
             'active' => Tab::make(__('admin/users.table.tabs.active'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->active())
-                ->badge($model::active()->count()),
+                ->badge($model::whereIn('type_id', $userTypes)->active()->count()),
             'archived' => Tab::make(__('admin/users.table.tabs.archived'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->archived())
-                ->badge($model::archived()->count()),
+                ->badge($model::whereIn('type_id', $userTypes)->archived()->count()),
         ];
     }
 }
