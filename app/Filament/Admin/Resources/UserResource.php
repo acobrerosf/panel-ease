@@ -66,6 +66,7 @@ class UserResource extends Resource
                         titleAttribute: 'name',
                         modifyQueryUsing: fn (Builder $query) => $query->orderBy('id')
                     )
+                    ->getOptionLabelFromRecordUsing(fn (UserType $type): ?string => $type?->name)
                     ->preload()
                     ->required(),
 
@@ -85,8 +86,8 @@ class UserResource extends Resource
             ->modifyQueryUsing(
                 fn (Builder $query) => 
                     $query->when(
-                            value: auth()->user()->type_id == UserType::ADMINISTRATOR, 
-                            callback: fn (Builder $query) => $query->where('type_id', UserType::ADMINISTRATOR)
+                            value: auth()->user()->type_id != UserType::FULL_ADMINISTRATOR, 
+                            callback: fn (Builder $query) => $query->where('type_id', '<>', UserType::FULL_ADMINISTRATOR)
                         )
                         ->whereNull('deleted_at')
             )
