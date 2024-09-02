@@ -14,8 +14,8 @@ class UserInviteAction
         
     }
 
-    public function __invoke(User $user): bool
+    public function handle(User $user): bool
     {
-        return $this->sendResetPasswordAction->__invoke($user);
+        return $this->sendResetPasswordAction->handle($user);
     }
 }

@@ -137,10 +137,14 @@ it('can edit an existing user', function() {
 it('can delete user', function() {
     $user = User::factory()->create();
  
+    $previousEmail = $user->email;
+
     livewire(ManageUsers::class)
         ->callTableAction('delete', $user);
 
-    expect($user->fresh()->deleted_at)->not->toBe(null);
+    $user = $user->fresh();
+    expect($user->deleted_at)->not->toBe(null);
+    expect($user->email)->toBe("{$user->id}@#@{$previousEmail}");
 });
 
 it('can archive user', function() {

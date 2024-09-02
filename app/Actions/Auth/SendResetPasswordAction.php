@@ -7,7 +7,7 @@ use Exception;
 
 class SendResetPasswordAction
 {
-    public function __invoke(User $user): bool
+    public function handle(User $user): bool
     {
         try {
             $token = app('auth.password.broker')->createToken($user);

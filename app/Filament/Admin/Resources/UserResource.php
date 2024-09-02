@@ -125,7 +125,7 @@ class UserResource extends Resource
                     ->requiresConfirmation()
                     ->visible(fn (Model $record) => !$record->hasVerifiedEmail() && $record->isActive())
                     ->action(function (Model $record, UserInviteAction $inviteAction): void {
-                        $success = $inviteAction($record);
+                        $success = $inviteAction->handle($record);
                         if (!$success) {
                             Notification::make()
                                 ->danger()
@@ -148,7 +148,7 @@ class UserResource extends Resource
                     ->requiresConfirmation()
                     ->visible(fn (Model $record) => $record->isArchived() && $record->id !== auth()->id())
                     ->action(function (Model $record, UserUnarchiveAction $unarchiveAction): void {
-                        $unarchiveAction($record);
+                        $unarchiveAction->handle($record);
         
                         Notification::make()
                             ->success()
@@ -166,7 +166,7 @@ class UserResource extends Resource
                     ->requiresConfirmation()
                     ->visible(fn (Model $record) => $record->isActive() && $record->id !== auth()->id())
                     ->action(function (Model $record, UserArchiveAction $archiveAction): void {
-                        $archiveAction($record);
+                        $archiveAction->handle($record);
         
                         Notification::make()
                             ->success()
@@ -176,7 +176,7 @@ class UserResource extends Resource
 
                 Tables\Actions\DeleteAction::make()
                     ->visible(fn (Model $record) => $record->id !== auth()->id())
-                    ->using(fn (Model $record, UserDeleteAction $deleteAction) => $deleteAction($record)),
+                    ->using(fn (Model $record, UserDeleteAction $deleteAction) => $deleteAction->handle($record)),
             ])
             ->bulkActions([
                 //

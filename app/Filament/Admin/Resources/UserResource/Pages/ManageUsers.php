@@ -19,7 +19,7 @@ class ManageUsers extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-                ->using(fn (array $data, UserCreateAction $createAction): Model => $createAction($data))
+                ->using(fn (array $data, UserCreateAction $createAction): Model => $createAction->handle($data))
         ];
     }
 

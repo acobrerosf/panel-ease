@@ -12,12 +12,9 @@ class UserCreateAction
 {
     public function __construct(
         private SendResetPasswordAction $sendResetPasswordAction
-    )
-    {
-        
-    }
+    ) {}
 
-    public function __invoke(array $data): User
+    public function handle(array $data): User
     {
         DB::beginTransaction();
 
@@ -29,7 +26,7 @@ class UserCreateAction
             $user->save();
 
             // Send reset password notification.
-            $this->sendResetPasswordAction->__invoke($user);
+            $this->sendResetPasswordAction->handle($user);
 
             DB::commit();
         }
