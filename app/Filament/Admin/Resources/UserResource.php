@@ -16,7 +16,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
@@ -65,7 +64,7 @@ class UserResource extends Resource
                         titleAttribute: 'name',
                         modifyQueryUsing: fn (Builder $query) => $query->orderBy('id')
                     )
-                    ->getOptionLabelFromRecordUsing(fn (UserType $type): ?string => $type?->name)
+                    ->getOptionLabelFromRecordUsing(fn (UserType $type): string => $type->name)
                     ->preload()
                     ->required(),
 
@@ -109,7 +108,7 @@ class UserResource extends Resource
                 Tables\Columns\IconColumn::make('email_verified_at')
                     ->label(__('admin/users.table.columns.email_verified_at'))
                     ->boolean()
-                    ->getStateUsing(fn (Model $record) => $record->hasVerifiedEmail())
+                    ->getStateUsing(fn (User $record) => $record->hasVerifiedEmail())
                     ->sortable(),
             ])
             ->filters([
@@ -121,8 +120,8 @@ class UserResource extends Resource
                     ->color('success')
                     ->icon('heroicon-o-paper-airplane')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record) => ! $record->hasVerifiedEmail() && $record->isActive())
-                    ->action(function (Model $record, UserInviteAction $inviteAction): void {
+                    ->visible(fn (User $record) => ! $record->hasVerifiedEmail() && $record->isActive())
+                    ->action(function (User $record, UserInviteAction $inviteAction): void {
                         $success = $inviteAction->handle($record);
                         if (! $success) {
                             Notification::make()
@@ -144,8 +143,8 @@ class UserResource extends Resource
                     ->color('info')
                     ->icon('heroicon-o-arrow-left-start-on-rectangle')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record) => $record->isArchived() && $record->id !== auth()->id())
-                    ->action(function (Model $record, UserUnarchiveAction $unarchiveAction): void {
+                    ->visible(fn (User $record) => $record->isArchived() && $record->id !== auth()->id())
+                    ->action(function (User $record, UserUnarchiveAction $unarchiveAction): void {
                         $unarchiveAction->handle($record);
 
                         Notification::make()
@@ -155,15 +154,15 @@ class UserResource extends Resource
                     }),
 
                 Tables\Actions\EditAction::make()
-                    ->visible(fn (Model $record) => $record->id !== auth()->id()),
+                    ->visible(fn (User $record) => $record->id !== auth()->id()),
 
                 Tables\Actions\Action::make('archive')
                     ->label(__('admin/users.actions.archive.label'))
                     ->color('info')
                     ->icon('heroicon-o-archive-box-x-mark')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record) => $record->isActive() && $record->id !== auth()->id())
-                    ->action(function (Model $record, UserArchiveAction $archiveAction): void {
+                    ->visible(fn (User $record) => $record->isActive() && $record->id !== auth()->id())
+                    ->action(function (User $record, UserArchiveAction $archiveAction): void {
                         $archiveAction->handle($record);
 
                         Notification::make()
@@ -173,8 +172,8 @@ class UserResource extends Resource
                     }),
 
                 Tables\Actions\DeleteAction::make()
-                    ->visible(fn (Model $record) => $record->id !== auth()->id())
-                    ->using(fn (Model $record, UserDeleteAction $deleteAction) => $deleteAction->handle($record)),
+                    ->visible(fn (User $record) => $record->id !== auth()->id())
+                    ->using(fn (User $record, UserDeleteAction $deleteAction) => $deleteAction->handle($record)),
             ])
             ->bulkActions([
                 //

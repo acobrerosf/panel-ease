@@ -25,7 +25,10 @@ class AppServiceProvider extends ServiceProvider
         //////////////////////////////
 
         Carbon::macro('inApplicationTimezone', function () {
-            return $this->tz(config('app.timezone_display'));
+            /** @var Carbon $this */
+            $carbon = $this;
+
+            return $carbon->tz(config('app.timezone_display'));
         });
     }
 }

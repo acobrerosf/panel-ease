@@ -25,6 +25,7 @@ class ManageUsers extends ManageRecords
 
     public function getTabs(): array
     {
+        /** @var \App\Models\User $model */
         $model = $this->getModel();
 
         $userTypes = [
@@ -37,13 +38,13 @@ class ManageUsers extends ManageRecords
 
         return [
             'all' => Tab::make(__('admin/users.table.tabs.all'))
-                ->badge($model::whereIn('type_id', $userTypes)->count()),
+                ->badge($model::query()->whereIn('type_id', $userTypes)->count()),
             'active' => Tab::make(__('admin/users.table.tabs.active'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->active())
-                ->badge($model::whereIn('type_id', $userTypes)->active()->count()),
+                ->badge($model::query()->active()->whereIn('type_id', $userTypes)->count()),
             'archived' => Tab::make(__('admin/users.table.tabs.archived'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->archived())
-                ->badge($model::whereIn('type_id', $userTypes)->archived()->count()),
+                ->badge($model::query()->archived()->whereIn('type_id', $userTypes)->count()),
         ];
     }
 }

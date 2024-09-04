@@ -58,7 +58,15 @@ class User extends Authenticatable implements FilamentUser
      */
     public function isArchived(): bool
     {
-        return $this->archived_at !== null;
+        return ! is_null($this->archived_at);
+    }
+
+    /**
+     * Get if the user is active.
+     */
+    public function isActive(): bool
+    {
+        return ! $this->isArchived();
     }
 
     /**
@@ -75,14 +83,6 @@ class User extends Authenticatable implements FilamentUser
     public function scopeArchived(Builder $query): void
     {
         $query->whereNotNull('archived_at');
-    }
-
-    /**
-     * Get if the user is active.
-     */
-    public function isActive(): bool
-    {
-        return ! $this->isArchived();
     }
 
     /**

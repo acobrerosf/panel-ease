@@ -9,6 +9,18 @@ parameters:
     # Level 9 is the highest level
     level: 5
 
+    treatPhpDocTypesAsCertain: false
+
+    ignoreErrors:
+        -
+            message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder::active\\(\\).$#"
+            count: 1
+            path: app/Filament/Admin/Resources/UserResource/Pages/ManageUsers.php
+        -
+            message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder::archived\\(\\).$#"
+            count: 1
+            path: app/Filament/Admin/Resources/UserResource/Pages/ManageUsers.php
+
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'
 #
