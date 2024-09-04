@@ -10,7 +10,7 @@ use Filament\Facades\Filament;
 class AdminTestCase extends TestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setUp(): void
     {

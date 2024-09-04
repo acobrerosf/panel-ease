@@ -20,7 +20,7 @@ class UserCreateAction
 
         try {
             // Create user.
-            $user = new User();
+            $user = new User;
             $user->fill($data);
             $user->password = Str::random(10);
             $user->save();
@@ -29,8 +29,7 @@ class UserCreateAction
             $this->sendResetPasswordAction->handle($user);
 
             DB::commit();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }

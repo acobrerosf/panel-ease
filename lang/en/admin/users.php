@@ -4,14 +4,14 @@ return [
 
     'navigation' => [
         'label' => 'Users',
-        'group' => 'Management'
+        'group' => 'Management',
     ],
 
     'model' => 'user',
 
     'table' => [
-        'tabs' => [          
-            'all' => 'All',  
+        'tabs' => [
+            'all' => 'All',
             'active' => 'Active',
             'archived' => 'Archived',
         ],
@@ -19,8 +19,8 @@ return [
             'name' => 'Name',
             'email' => 'Email',
             'type_id' => 'Type',
-            'email_verified_at' => 'Registered'
-        ]
+            'email_verified_at' => 'Registered',
+        ],
     ],
 
     'form' => [
@@ -28,7 +28,7 @@ return [
             'name' => 'Name',
             'email' => 'Email',
             'type_id' => 'Type',
-        ]
+        ],
     ],
 
     'actions' => [

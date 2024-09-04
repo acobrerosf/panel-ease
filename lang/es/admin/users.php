@@ -4,14 +4,14 @@ return [
 
     'navigation' => [
         'label' => 'Usuarios',
-        'group' => 'Gestión'
+        'group' => 'Gestión',
     ],
 
     'model' => 'usuario',
 
     'table' => [
-        'tabs' => [      
-            'all' => 'Todos',        
+        'tabs' => [
+            'all' => 'Todos',
             'active' => 'Activos',
             'archived' => 'Archivados',
         ],
@@ -19,8 +19,8 @@ return [
             'name' => 'Nombre',
             'email' => 'Email',
             'type_id' => 'Tipo',
-            'email_verified_at' => 'Registrado'
-        ]
+            'email_verified_at' => 'Registrado',
+        ],
     ],
 
     'form' => [
@@ -28,7 +28,7 @@ return [
             'name' => 'Nombre',
             'email' => 'Email',
             'type_id' => 'Tipo',
-        ]
+        ],
     ],
 
     'actions' => [

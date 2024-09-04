@@ -10,14 +10,14 @@ class UserType extends Model
 {
     /**
      * Full Administrator (DB Value)
-     * 
+     *
      * @var int
      */
     public const FULL_ADMINISTRATOR = 1;
 
     /**
      * Administrator (DB Value)
-     * 
+     *
      * @var int
      */
     public const ADMINISTRATOR = 2;

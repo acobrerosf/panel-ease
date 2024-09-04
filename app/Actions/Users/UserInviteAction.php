@@ -9,10 +9,7 @@ class UserInviteAction
 {
     public function __construct(
         private SendResetPasswordAction $sendResetPasswordAction
-    )
-    {
-        
-    }
+    ) {}
 
     public function handle(User $user): bool
     {

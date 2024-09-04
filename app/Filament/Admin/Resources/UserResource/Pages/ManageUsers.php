@@ -19,14 +19,14 @@ class ManageUsers extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-                ->using(fn (array $data, UserCreateAction $createAction): Model => $createAction->handle($data))
+                ->using(fn (array $data, UserCreateAction $createAction): Model => $createAction->handle($data)),
         ];
     }
 
     public function getTabs(): array
     {
         $model = $this->getModel();
-        
+
         $userTypes = [
             UserType::FULL_ADMINISTRATOR,
             UserType::ADMINISTRATOR,

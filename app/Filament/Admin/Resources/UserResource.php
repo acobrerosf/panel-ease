@@ -7,7 +7,6 @@ use App\Actions\Users\UserDeleteAction;
 use App\Actions\Users\UserInviteAction;
 use App\Actions\Users\UserUnarchiveAction;
 use App\Filament\Admin\Resources\UserResource\Pages;
-use App\Filament\Admin\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use App\Models\UserType;
 use Filament\Forms;
@@ -62,7 +61,7 @@ class UserResource extends Resource
                 Forms\Components\Select::make('type_id')
                     ->label(__('admin/users.form.fields.type_id'))
                     ->relationship(
-                        name: 'type', 
+                        name: 'type',
                         titleAttribute: 'name',
                         modifyQueryUsing: fn (Builder $query) => $query->orderBy('id')
                     )
@@ -84,12 +83,11 @@ class UserResource extends Resource
     {
         return $table
             ->modifyQueryUsing(
-                fn (Builder $query) => 
-                    $query->when(
-                            value: auth()->user()->type_id != UserType::FULL_ADMINISTRATOR, 
-                            callback: fn (Builder $query) => $query->where('type_id', '<>', UserType::FULL_ADMINISTRATOR)
-                        )
-                        ->whereNull('deleted_at')
+                fn (Builder $query) => $query->when(
+                    value: auth()->user()->type_id != UserType::FULL_ADMINISTRATOR,
+                    callback: fn (Builder $query) => $query->where('type_id', '<>', UserType::FULL_ADMINISTRATOR)
+                )
+                    ->whereNull('deleted_at')
             )
             ->defaultSort('name')
             ->columns([
@@ -123,10 +121,10 @@ class UserResource extends Resource
                     ->color('success')
                     ->icon('heroicon-o-paper-airplane')
                     ->requiresConfirmation()
-                    ->visible(fn (Model $record) => !$record->hasVerifiedEmail() && $record->isActive())
+                    ->visible(fn (Model $record) => ! $record->hasVerifiedEmail() && $record->isActive())
                     ->action(function (Model $record, UserInviteAction $inviteAction): void {
                         $success = $inviteAction->handle($record);
-                        if (!$success) {
+                        if (! $success) {
                             Notification::make()
                                 ->danger()
                                 ->title(__('admin/users.actions.invite.notification_title_failed'))
@@ -134,7 +132,7 @@ class UserResource extends Resource
 
                             return;
                         }
-        
+
                         Notification::make()
                             ->success()
                             ->title(__('admin/users.actions.invite.notification_title_success'))
@@ -149,7 +147,7 @@ class UserResource extends Resource
                     ->visible(fn (Model $record) => $record->isArchived() && $record->id !== auth()->id())
                     ->action(function (Model $record, UserUnarchiveAction $unarchiveAction): void {
                         $unarchiveAction->handle($record);
-        
+
                         Notification::make()
                             ->success()
                             ->title(__('admin/users.actions.unarchive.notification_title_success'))
@@ -167,7 +165,7 @@ class UserResource extends Resource
                     ->visible(fn (Model $record) => $record->isActive() && $record->id !== auth()->id())
                     ->action(function (Model $record, UserArchiveAction $archiveAction): void {
                         $archiveAction->handle($record);
-        
+
                         Notification::make()
                             ->success()
                             ->title(__('admin/users.actions.archive.notification_title_success'))

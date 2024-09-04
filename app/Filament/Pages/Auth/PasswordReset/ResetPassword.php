@@ -78,11 +78,11 @@ class ResetPassword extends SimplePage
 
         $status = Password::broker(Filament::getAuthPasswordBroker())->reset(
             $data,
-            function (CanResetPassword | Model | Authenticatable $user) use ($data) {
+            function (CanResetPassword|Model|Authenticatable $user) use ($data) {
                 $user->forceFill([
                     'password' => Hash::make($data['password']),
                     'remember_token' => Str::random(60),
-                    'email_verified_at' => now()
+                    'email_verified_at' => now(),
                 ])->save();
 
                 event(new PasswordReset($user));
@@ -160,12 +160,12 @@ class ResetPassword extends SimplePage
             ->dehydrated(false);
     }
 
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string|Htmlable
     {
         return __('filament-panels::pages/auth/password-reset/reset-password.title');
     }
 
-    public function getHeading(): string | Htmlable
+    public function getHeading(): string|Htmlable
     {
         return __('filament-panels::pages/auth/password-reset/reset-password.heading');
     }
@@ -192,4 +192,3 @@ class ResetPassword extends SimplePage
         return true;
     }
 }
-

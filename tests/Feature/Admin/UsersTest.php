@@ -16,38 +16,38 @@ it('can render index page', function () {
 
 it('can list users', function () {
     $users = User::factory()->count(5)->create();
- 
+
     livewire(ManageUsers::class)
         ->assertCanSeeTableRecords($users)
         ->assertCountTableRecords(6);
 });
 
-it('cannot display deleted users by default', function() {
+it('cannot display deleted users by default', function () {
     $users = User::factory()->count(3)->create();
     $deletedUsers = User::factory()->trashed()->count(3)->create();
- 
+
     livewire(ManageUsers::class)
         ->assertCanSeeTableRecords($users)
         ->assertCanNotSeeTableRecords($deletedUsers)
         ->assertCountTableRecords(4);
 });
 
-it('cannot display full administrator users to administrator users', function() {
+it('cannot display full administrator users to administrator users', function () {
     $adminUser = User::factory()->create(['type_id' => UserType::ADMINISTRATOR]);
     $this->actingAs($adminUser, 'admin');
 
     $superAdminUsers = User::factory()->state(['type_id' => UserType::FULL_ADMINISTRATOR])->count(3)->create();
     $adminUsers = User::factory()->state(['type_id' => UserType::ADMINISTRATOR])->count(3)->create();
- 
+
     livewire(ManageUsers::class)
         ->assertCanSeeTableRecords($adminUsers)
         ->assertCanNotSeeTableRecords($superAdminUsers)
         ->assertCountTableRecords(4);
 });
 
-it('cannot display actions to modify your account', function() {
+it('cannot display actions to modify your account', function () {
     $user = auth()->user();
- 
+
     livewire(ManageUsers::class)
         ->assertTableActionHidden('invite', $user)
         ->assertTableActionHidden('unarchive', $user)
@@ -56,39 +56,39 @@ it('cannot display actions to modify your account', function() {
         ->assertTableActionHidden('delete', $user);
 });
 
-it('displays the invite action for non-registered users only', function() {
+it('displays the invite action for non-registered users only', function () {
     $user = User::factory()->create([
-        'email_verified_at' => null
+        'email_verified_at' => null,
     ]);
- 
+
     livewire(ManageUsers::class)
         ->assertTableActionVisible('invite', $user);
 });
 
-it('hides the invite action for registered users', function() {
+it('hides the invite action for registered users', function () {
     $user = User::factory()->create();
- 
+
     livewire(ManageUsers::class)
         ->assertTableActionHidden('invite', $user);
 });
 
-it('displays the archive action for active users only', function() {
+it('displays the archive action for active users only', function () {
     $activeUser = User::factory()->create();
- 
+
     livewire(ManageUsers::class)
         ->assertTableActionVisible('archive', $activeUser)
         ->assertTableActionHidden('unarchive', $activeUser);
 });
 
-it('displays the active action for archived users only', function() {
+it('displays the active action for archived users only', function () {
     $archivedUser = User::factory()->create(['archived_at' => now()]);
- 
+
     livewire(ManageUsers::class)
         ->assertTableActionVisible('unarchive', $archivedUser)
         ->assertTableActionHidden('archive', $archivedUser);
 });
 
-it('can create a new user', function() { 
+it('can create a new user', function () {
     Notification::fake();
 
     expect(
@@ -98,17 +98,17 @@ it('can create a new user', function() {
     )->toBe(null);
 
     Notification::assertNothingSent();
-    
+
     livewire(ManageUsers::class)
         ->callAction('create', data: [
             'name' => 'Admin',
             'type_id' => UserType::ADMINISTRATOR,
-            'email' => 'admin@email.com'
+            'email' => 'admin@email.com',
         ]);
 
     $user = User::where('email', 'admin@email.com')->first();
     expect($user)->not->toBe(null);
-        
+
     expect(
         DB::table('user_password_reset_tokens')
             ->where('email', $user->email)
@@ -122,21 +122,21 @@ it('can create a new user', function() {
     Notification::assertCount(1);
 });
 
-it('can edit an existing user', function() {
-    $user = User::factory()->create();    
-    
+it('can edit an existing user', function () {
+    $user = User::factory()->create();
+
     livewire(ManageUsers::class)
         ->callTableAction('edit', $user, [
             ...$user->toArray(),
-            'email' => 'edited@email.com'
+            'email' => 'edited@email.com',
         ]);
 
     expect($user->fresh()->email)->toBe('edited@email.com');
 });
 
-it('can delete user', function() {
+it('can delete user', function () {
     $user = User::factory()->create();
- 
+
     $previousEmail = $user->email;
 
     livewire(ManageUsers::class)
@@ -147,31 +147,31 @@ it('can delete user', function() {
     expect($user->email)->toBe("{$user->id}@#@{$previousEmail}");
 });
 
-it('can archive user', function() {
+it('can archive user', function () {
     $user = User::factory()->create();
- 
+
     livewire(ManageUsers::class)
         ->callTableAction('archive', $user);
-        
+
     expect($user->fresh()->isArchived())->toBe(true);
 });
 
-it('can unarchive user', function() {
+it('can unarchive user', function () {
     $user = User::factory()->create(['archived_at' => now()]);
- 
+
     livewire(ManageUsers::class)
         ->callTableAction('unarchive', $user);
 
     expect($user->fresh()->isActive())->toBe(true);
 });
 
-it('can send invite to user', function() {
+it('can send invite to user', function () {
     Notification::fake();
 
     $user = User::factory()->create([
         'email_verified_at' => null,
     ]);
-    
+
     expect(
         DB::table('user_password_reset_tokens')
             ->where('email', $user->email)
@@ -179,7 +179,7 @@ it('can send invite to user', function() {
     )->toBe(null);
 
     Notification::assertNothingSent();
- 
+
     livewire(ManageUsers::class)
         ->callTableAction('invite', $user);
 
@@ -188,7 +188,7 @@ it('can send invite to user', function() {
     );
 
     Notification::assertCount(1);
-        
+
     expect(
         DB::table('user_password_reset_tokens')
             ->where('email', $user->email)

@@ -14,8 +14,7 @@ class SendResetPasswordAction
             $notification = new \Filament\Notifications\Auth\ResetPassword($token);
             $notification->url = \Filament\Facades\Filament::getResetPasswordUrl($token, $user);
             $user->notify($notification);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
 

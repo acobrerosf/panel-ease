@@ -8,7 +8,6 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +17,7 @@ class User extends Authenticatable implements FilamentUser
     use HasFactory, Notifiable, SoftDeletes;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $fillable = [
         'name',
@@ -27,7 +26,7 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $hidden = [
         'password',
@@ -35,14 +34,14 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'archived_at' => 'datetime'
+            'archived_at' => 'datetime',
         ];
     }
 
@@ -83,15 +82,15 @@ class User extends Authenticatable implements FilamentUser
      */
     public function isActive(): bool
     {
-        return !$this->isArchived();
+        return ! $this->isArchived();
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        if (!$this->hasVerifiedEmail() || !$this->isActive()) {
+        if (! $this->hasVerifiedEmail() || ! $this->isActive()) {
             return false;
         }
 
