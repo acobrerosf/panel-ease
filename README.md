@@ -126,5 +126,5 @@ If you want to contribute I would really appreciate it but I can't confirm I wil
 PanelEase is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 # Developed By
-<p align="center"><a href="https://abelcobreros.com" target="_blank"><img src="https://abelcobreros.com/app/uploads/2024/01/cropped-abel-cobreros-logo-sin-fondo-1.png.webp" width="400" alt="Abel Cobreros Logo"></a></p>
+<p align="center"><a href="https://abelcobreros.com" target="_blank"><img src="https://abelcobreros.com/dark-logo.png" width="400" alt="Abel Cobreros Logo"></a></p>
 
