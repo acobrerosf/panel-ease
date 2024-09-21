@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Filament\Admin\Resources\UserResource;
 use App\Filament\Admin\Resources\UserResource\Pages\ManageUsers;
 use App\Models\User;
@@ -36,7 +38,7 @@ it('cannot display full administrator users to administrator users', function ()
     $adminUser = User::factory()->create(['type_id' => UserType::ADMINISTRATOR]);
     $this->actingAs($adminUser, 'admin');
 
-    $superAdminUsers = User::factory()->state(['type_id' => UserType::FULL_ADMINISTRATOR])->count(3)->create();
+    $superAdminUsers = User::factory()->state(['type_id' => UserType::SUPER_ADMIN])->count(3)->create();
     $adminUsers = User::factory()->state(['type_id' => UserType::ADMINISTRATOR])->count(3)->create();
 
     livewire(ManageUsers::class)

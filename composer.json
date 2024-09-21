@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "acobrerosf/panel-ease",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "Panel Ease",
+    "keywords": ["panel", "ease"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -17,9 +17,9 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
-        "pestphp/pest": "^2.35",
-        "pestphp/pest-plugin-laravel": "^2.4",
-        "pestphp/pest-plugin-livewire": "^2.1"
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "pestphp/pest-plugin-livewire": "^3.0"
     },
     "autoload": {
         "psr-4": {

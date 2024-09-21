@@ -1,19 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class UserType extends Model
+/**
+ * @property int $id
+ * @property string $name
+ * @property-read Collection<int, User> $users
+ */
+final class UserType extends Model
 {
     /**
-     * Full Administrator (DB Value)
+     * Super Admin (DB Value)
      *
      * @var int
      */
-    public const FULL_ADMINISTRATOR = 1;
+    public const SUPER_ADMIN = 1;
 
     /**
      * Administrator (DB Value)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Users;
 
 use App\Actions\Auth\SendResetPasswordAction;
@@ -8,12 +10,18 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class UserCreateAction
+final readonly class UserCreateAction
 {
+    /**
+     * Constructor.
+     */
     public function __construct(
         private SendResetPasswordAction $sendResetPasswordAction
     ) {}
 
+    /**
+     * Handle the action.
+     */
     public function handle(array $data): User
     {
         DB::beginTransaction();

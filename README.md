@@ -7,7 +7,7 @@ manage your admin users and it has the text translated to spanish as well.
 
 ## Users
 
-A user must be assigned with a user type. By default, the skeleton comes with the types "Full Administrator" and "Administrator".
+A user must be assigned with a user type. By default, the skeleton comes with the types "Super Admin" and "Administrator".
 
 ## Customize user types
 
@@ -51,7 +51,7 @@ class ClientsPanelProvider extends PanelProvider
     {
         return $panel
             ->id(PanelEnums::Clients->value)
-            ->path(PanelEnums::Clients->value)
+            ->path(PanelEnums::Clients->path())
             ->login()
             ->passwordReset(resetAction: ResetPassword::class)
             ->profile(isSimple: false)
@@ -107,7 +107,7 @@ public function canAccessPanel(Panel $panel): bool
 
     switch ($panel->getId()) {
         case PanelEnums::Admin->value:
-            return in_array($this->type_id, [UserType::FULL_ADMINISTRATOR, UserType::ADMINISTRATOR]);
+            return in_array($this->type_id, [UserType::SUPER_ADMIN, UserType::ADMINISTRATOR]);
         case PanelEnums::Clients->value:
             return $this->type_id == UserType::CLIENT;
     }

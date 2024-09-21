@@ -10,7 +10,7 @@ use Filament\Facades\Filament;
 class AdminTestCase extends TestCase
 {
     /**
-     * {@inheritdoc}
+     * Setup the test environment.
      */
     protected function setUp(): void
     {
@@ -22,7 +22,7 @@ class AdminTestCase extends TestCase
         );
 
         // Authenticate full administrator user.
-        $fullAdminUser = User::factory()->create(['type_id' => UserType::FULL_ADMINISTRATOR]);
+        $fullAdminUser = User::factory()->create(['type_id' => UserType::SUPER_ADMIN]);
         $this->actingAs($fullAdminUser, 'admin');
     }
 }

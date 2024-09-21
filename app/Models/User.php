@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\PanelEnums;
@@ -11,13 +13,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
-class User extends Authenticatable implements FilamentUser
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string $password
+ * @property string $remember_token
+ * @property int $type_id
+ * @property string $archived_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read UserType $type
+ */
+final class User extends Authenticatable implements FilamentUser
 {
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, SoftDeletes;
 
     /**
-     * {@inheritdoc}
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -26,7 +46,9 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * {@inheritdoc}
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -34,19 +56,25 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * {@inheritdoc}
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
      */
-    protected function casts(): array
+    public function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'archived_at' => 'datetime',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
         ];
     }
 
     /**
      * Get the type.
+     *
+     * @return BelongsTo<UserType, User>
      */
     public function type(): BelongsTo
     {
@@ -86,7 +114,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * {@inheritdoc}
+     * Get if the user can access the panel.
      */
     public function canAccessPanel(Panel $panel): bool
     {
@@ -96,7 +124,7 @@ class User extends Authenticatable implements FilamentUser
 
         switch ($panel->getId()) {
             case PanelEnums::Admin->value:
-                return in_array($this->type_id, [UserType::FULL_ADMINISTRATOR, UserType::ADMINISTRATOR]);
+                return in_array($this->type_id, [UserType::SUPER_ADMIN, UserType::ADMINISTRATOR]);
         }
 
         return false;

@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Auth;
 
 use App\Models\User;
 use Exception;
 
-class SendResetPasswordAction
+final readonly class SendResetPasswordAction
 {
+    /**
+     * Handle the action.
+     */
     public function handle(User $user): bool
     {
         try {

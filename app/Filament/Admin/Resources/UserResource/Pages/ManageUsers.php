@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\UserResource\Pages;
 
 use App\Actions\Users\UserCreateAction;
@@ -10,12 +12,19 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-class ManageUsers extends ManageRecords
+final class ManageUsers extends ManageRecords
 {
+    /**
+     * The resource class associated with this page.
+     */
     protected static string $resource = UserResource::class;
 
-    protected function getHeaderActions(): array
+    /**
+     * Get the header actions for this page.
+     */
+    public function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make()
@@ -23,16 +32,19 @@ class ManageUsers extends ManageRecords
         ];
     }
 
+    /**
+     * Get the tabs for this page.
+     */
     public function getTabs(): array
     {
         /** @var \App\Models\User $model */
         $model = $this->getModel();
 
         $userTypes = [
-            UserType::FULL_ADMINISTRATOR,
+            UserType::SUPER_ADMIN,
             UserType::ADMINISTRATOR,
         ];
-        if (auth()->user()->type_id == UserType::ADMINISTRATOR) {
+        if (Auth::user()->type_id == UserType::ADMINISTRATOR) {
             $userTypes = [UserType::ADMINISTRATOR];
         }
 

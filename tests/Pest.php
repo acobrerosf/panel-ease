@@ -1,5 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Tests\AdminTestCase;
+use Tests\TestCase;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -11,10 +18,11 @@
 |
 */
 
-uses(
-    Tests\AdminTestCase::class,
-    Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature/Admin');
+pest()->extend(AdminTestCase::class, RefreshDatabase::class)->beforeEach(function () {
+    Storage::fake('public');
+})->in('Feature/Admin');
+
+pest()->extend(TestCase::class, RefreshDatabase::class)->in('Arch');
 
 /*
 |--------------------------------------------------------------------------

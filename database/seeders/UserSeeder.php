@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -7,7 +9,7 @@ use App\Models\UserType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UserSeeder extends Seeder
+final class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,11 +17,11 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
-            'name' => 'Abel Cobreros',
-            'email' => 'info@abelcobreros.com',
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
-            'type_id' => UserType::FULL_ADMINISTRATOR,
+            'type_id' => UserType::SUPER_ADMIN,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

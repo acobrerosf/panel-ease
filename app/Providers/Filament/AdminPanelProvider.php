@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers\Filament;
 
 use App\Enums\PanelEnums;
@@ -19,13 +21,16 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AdminPanelProvider extends PanelProvider
+final class AdminPanelProvider extends PanelProvider
 {
+    /**
+     * Build the panel.
+     */
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->id(PanelEnums::Admin->value)
-            ->path('')
+            ->path(PanelEnums::Admin->path())
             ->login()
             ->passwordReset(resetAction: ResetPassword::class)
             ->profile(isSimple: false)
