@@ -20,6 +20,14 @@ parameters:
             message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder::archived\\(\\).$#"
             count: 1
             path: app/Filament/Admin/Resources/UserResource/Pages/ManageUsers.php
+        -
+            message: '#^Method App\\Filament\\Pages\\Auth\\PasswordReset\\ResetPassword::getFormActions\(\) is unused.$#'
+            count: 1
+            path: app/Filament/Pages/Auth/PasswordReset/ResetPassword.php
+        -
+            message: '#^Method App\\Filament\\Pages\\Auth\\PasswordReset\\ResetPassword::hasFullWidthFormActions\(\) is unused.$#'
+            count: 1
+            path: app/Filament/Pages/Auth/PasswordReset/ResetPassword.php
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'

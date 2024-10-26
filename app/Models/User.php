@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\PanelEnums;
+use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,7 +24,7 @@ use Illuminate\Support\Carbon;
  * @property string $password
  * @property string $remember_token
  * @property int $type_id
- * @property string $archived_at
+ * @property Carbon|null $archived_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
@@ -73,8 +74,6 @@ final class User extends Authenticatable implements FilamentUser
 
     /**
      * Get the type.
-     *
-     * @return BelongsTo<UserType, User>
      */
     public function type(): BelongsTo
     {

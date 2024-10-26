@@ -87,7 +87,7 @@ final class ResetPassword extends SimplePage
         try {
             $this->rateLimit(2);
         } catch (TooManyRequestsException $exception) {
-            $this->getRateLimitedNotification($exception)?->send();
+            $this->getRateLimitedNotification($exception)->send();
 
             return null;
         }
@@ -130,7 +130,7 @@ final class ResetPassword extends SimplePage
     /**
      * Get the rate limited notification.
      */
-    private function getRateLimitedNotification(TooManyRequestsException $exception): ?Notification
+    private function getRateLimitedNotification(TooManyRequestsException $exception): Notification
     {
         return Notification::make()
             ->title(__('filament-panels::pages/auth/password-reset/reset-password.notifications.throttled.title', [
