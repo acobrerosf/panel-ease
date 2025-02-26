@@ -63,10 +63,6 @@ final class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->darkMode(
-                condition: true,
-                isForced: true
-            )
             ->renderHook(
                 name: 'panels::body.end',
                 hook: fn () => view('panels.footer')
